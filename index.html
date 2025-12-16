@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    
+    <meta name="description"
+        content="LET Innovations - let innovation, Premium electronics components, IoT devices, Arduino, ESP32, Raspberry Pi, sensors, and embedded systems. Expert tech solutions for hardware, software development, IoT automation, AI/ML, and solar systems in Minna, Nigeria.">
+    <meta name="keywords"
+        content="LET Innovations Minna, let innovation, drone, gps module, ultrasonic sensor, electronics, Arduino, ESP32, Raspberry Pi, IoT, embedded systems, sensors, smartwatch, electronics repair, software development, AI/ML, solar systems, Nigeria">
+    <meta name="author" content="LET Innovations">
+    <meta name="theme-color" content="#6b4b9f">
+    <meta property="og:title" content="LET Innovations - Electronics & IoT Solutions">
+    <meta property="og:description"
+        content="Professional electronics, IoT devices, and embedded systems solutions. AI-driven tech for smarter living. Shop premium components and expert services.">
+    <meta property="og:image" content="img/let_logo.png">
+    <meta property="og:type" content="business.business">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LET Innovations - Electronics & IoT Solutions">
+    <meta name="twitter:description" content="Professional electronics and IoT solutions">
+    <link rel="canonical" href="https://letinnovations.store">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="let_store_recreated">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+    <link rel="icon" href="logo.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="logo.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="logo.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="logo.png" sizes="512x512" type="image/png">
+
+    <title>LET Innovations - Electronics, Computers, Gadgets, SmartPhones, Smart Devices, IoT, Raspberry pi, Arduino, Esp32 Components in Nigeria</title>
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Landing Page Container */
+        #landing-page-container {
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        #landing-page-container.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Flutter Container */
+        #flutter-container {
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
+        }
+
+        #flutter-container.fade-in {
+            opacity: 1 !important;
+            pointer-events: auto;
+        }
+        
+        /* ... (rest of your CSS styles) ... */
+    </style>
+
+    <link rel="stylesheet" href="letinnovation.css">
+</head>
+
+<body>
+    <div id="landing-page-container">
+        <div id="splash-screen" class="splash-screen">
+            <img src="assets/images/let_symbol.png" alt="Let Innovation" class="splash-logo">
+            <div class="splash-loader"></div>
+        </div>
+
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <img src="assets/images/let_symbol.png" alt="Let Symbol" class="logo-symbol">
+                        <img src="assets/images/let_logo.png" alt="Let Innovation" class="logo-text">
+                    </div>
+                    
+                    <div class="header-actions">
+                        <button class="action-btn" id="search-btn" aria-label="Search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                        <button class="action-btn" id="notifications-btn" aria-label="Notifications">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </button>
+                        <button class="action-btn" id="theme-toggle" aria-label="Toggle theme">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <section class="banner-section">
+                <div class="banner-carousel">
+                    <div class="banner-slide active">
+                        <img src="assets/images/tech1.jpg" alt="Sharp Deals" class="banner-image">
+                        <div class="banner-content">
+                            <h2 class="banner-title">Sharp Deals</h2>
+                            <p class="banner-subtitle">Just for You</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="assets/images/tech4.png" alt="Premium Tech" class="banner-image">
+                        <div class="banner-content">
+                            <h2 class="banner-title">Premium Tech</h2>
+                            <p class="banner-subtitle">Waiting For You</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="assets/images/elect_store.jpg" alt="Research Resources" class="banner-image">
+                        <div class="banner-content">
+                            <h2 class="banner-title">Research Resources</h2>
+                            <p class="banner-subtitle">Exclusively For You</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="assets/images/tech3.jpg" alt="Smart Devices" class="banner-image">
+                        <div class="banner-content">
+                            <h2 class="banner-title">Smart Devices</h2>
+                            <p class="banner-subtitle">With AI Available</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="assets/images/laptop.jpg" alt="Smart Tech" class="banner-image">
+                        <div class="banner-content">
+                            <h2 class="banner-title">Smart Tech</h2>
+                            <p class="banner-subtitle">For Every Day</p>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="assets/images/tech6.png" alt="Explore New Tech" class="banner-image">
+                        <div class="banner-content">
+                            <h2 class="banner-title">Explore New Tech</h2>
+                            <p class="banner-subtitle">Smart. Fast. Reliable</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="banner-nav prev" aria-label="Previous slide">‹</button>
+                <button class="banner-nav next" aria-label="Next slide">›</button>
+                <div class="banner-indicators"></div>
+            </section>
+
+            <section class="product-section">
+                <div class="section-header">
+                    <h2 class="section-title">Items You Like</h2>
+                    <button class="see-all-btn" data-category="popular">See All</button>
+                </div>
+                <div class="product-list" id="popular-products"></div>
+            </section>
+
+            <div id="category-sections"></div>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>About Us</h3>
+                        <p>Your trusted source for innovative technology and electronics.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#terms">Terms</a></li>
+                            <li><a href="#privacy">Privacy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Contact</h3>
+                        <p>Email: info@letinnovations.store</p>
+                        <p>Phone: +234 XXX XXX XXXX</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Let Innovation. All rights reserved.</p>
+                </div>
+            </footer>
+        </div>
+
+        <div id="product-modal" class="modal">
+            <div class="modal-overlay" onclick="closeProductModal()"></div>
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeProductModal()">&times;</button>
+                <div id="modal-details"></div>
+            </div>
+        </div>
+
+        <div id="redirect-message" class="redirect-message" style="display: none;">
+            Redirecting to mobile store...
+        </div>
+    </div>
+
+    <div id="flutter-container" style="opacity: 0; transition: opacity 0.8s ease-in-out; pointer-events: none;">
+        </div>
+
+    <script>
+        // This function is called by your Dart code when all critical Flutter assets/data are loaded.
+        window.flutterAppIsReady = function() {
+            console.log("Flutter App Ready: Starting HTML transition.");
+            transitionToFlutter(); 
+        }
+    </script>
+
+    <script>
+        const serviceWorkerVersion = "1012251471";
+
+        function initializeFlutterTransition() {
+            // Use DOMContentLoaded to start loading the Flutter engine as soon as possible.
+            if (typeof _flutter !== 'undefined' && _flutter.loader) {
+                _flutter.loader.loadEntrypoint({
+                    serviceWorker: {
+                        serviceWorkerVersion: serviceWorkerVersion,
+                    },
+                    onEntrypointLoaded: async function(engineInitializer) {
+                        let appRunner = await engineInitializer.initializeEngine({
+                            renderer: "html",
+                        });
+                        await appRunner.runApp();
+                        
+                        // The transition call now relies ONLY on the window.flutterAppIsReady() 
+                        // call from the running Dart app, ensuring readiness.
+                    }
+                });
+            } else {
+                console.error("Flutter loader not found. Check flutter_bootstrap.js path and placement.");
+            }
+
+            // 🛑 REMOVED THE 15-SECOND TIMEOUT HERE. 
+            // The landing page will now remain indefinitely until the Dart app signals readiness.
+        }
+
+        function transitionToFlutter() {
+            const landingContainer = document.getElementById('landing-page-container');
+            const flutterContainer = document.getElementById('flutter-container');
+
+            // Check if the transition has already happened
+            if (!landingContainer || landingContainer.classList.contains('fade-out')) {
+                return;
+            }
+
+            // Start fade out of landing page
+            landingContainer.classList.add('fade-out');
+            
+            // Start fade in of Flutter
+            flutterContainer.classList.add('fade-in');
+
+            // Completely remove landing page from DOM and prevent any interaction
+            setTimeout(() => {
+                if (landingContainer) {
+                    landingContainer.remove();
+                }
+                document.body.style.overflow = 'auto';
+            }, 800);
+        }
+
+        // 🚀 Trigger Flutter loading as soon as the DOM is parsed
+        window.addEventListener('DOMContentLoaded', initializeFlutterTransition);
+        
+    </script>
+
+    <script src="flutter_bootstrap.js"></script>
+    <script src="letinnovation.js"></script>
+</body>
+</html>
