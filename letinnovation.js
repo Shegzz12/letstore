@@ -13,81 +13,39 @@ let isDarkMode = false
 
 // Utility Functions
 function formatCurrency(price) {
-  if (typeof price !== "number") return "N 0.00"
-  return price
-    .toLocaleString("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
-    .replace("NGN", "N")
-}
-
-function calculateDiscount(price, oldPrice) {
-  if (!oldPrice || oldPrice <= price) return 0
-  return Math.round(((oldPrice - price) / oldPrice) * 100)
-}
-
-function getRandomProducts(products, count) {
-  if (!products || products.length === 0) return []
-  const shuffled = [...products].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, Math.min(count, shuffled.length))
-}
-
-function groupProductsByCategory(products) {
-  const categoryMap = {}
-  products.forEach((product) => {
-    const category = product.category?.trim() || "Uncategorized"
-    if (!categoryMap[category]) {
-      categoryMap[category] = []
-    }
-    categoryMap[category].push(product)
-  })
-  return categoryMap
-}
-
-function getAuthHeaders(contentType = "application/json") {
-  if (!AUTH_TOKEN) {
-    console.warn("Authentication required. Bearer Token missing.")
-    return null
-  }
-  return {
-    "Content-Type": contentType,
-    Authorization: `Bearer ${AUTH_TOKEN}`,
-  }
+    if (typeof price !== 'number') { return 'N 0.00' };
+    return price.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 }
 
 // Theme Management
 function initTheme() {
-  const savedTheme = localStorage.getItem("theme")
-  isDarkMode = savedTheme === "dark"
-  applyTheme()
+    const savedTheme = localStorage.getItem("theme")
+    isDarkMode = savedTheme === "dark"
+    applyTheme()
 }
 
 function toggleTheme() {
-  isDarkMode = !isDarkMode
-  localStorage.setItem("theme", isDarkMode ? "dark" : "light")
-  applyTheme()
+    isDarkMode = !isDarkMode
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light")
+    applyTheme()
 }
 
 function applyTheme() {
-  document.body.classList.toggle("dark-mode", isDarkMode)
-  updateThemeIcon()
+    document.body.classList.toggle("dark-mode", isDarkMode)
+    updateThemeIcon()
 }
 
 function updateThemeIcon() {
-  const themeBtn = document.getElementById("theme-toggle")
-  const icon = themeBtn?.querySelector(".theme-icon")
-  if (icon) {
-    if (isDarkMode) {
-      // Moon icon for dark mode
-      icon.innerHTML = `
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            `
-    } else {
-      // Sun icon for light mode
-      icon.innerHTML = `
+    const themeBtn = document.getElementById("theme-toggle")
+    const icon = themeBtn?.querySelector(".theme-icon")
+    if (icon) {
+        if (isDarkMode) {
+            icon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`
+        } else {
+            icon.innerHTML = `
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
                 <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -98,73 +56,70 @@ function updateThemeIcon() {
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             `
+        }
     }
-  }
 }
 
-// Banner Carousel
+// Banner Carousel logic
 function initBannerCarousel() {
-  const slides = document.querySelectorAll(".banner-slide")
-  const indicators = document.querySelector(".banner-indicators")
+    const slides = document.querySelectorAll(".banner-slide")
+    const indicators = document.querySelector(".banner-indicators")
+    if (!indicators || slides.length === 0) return
 
-  // Create indicators
-  slides.forEach((_, index) => {
-    const indicator = document.createElement("div")
-    indicator.className = "indicator"
-    if (index === 0) indicator.classList.add("active")
-    indicator.addEventListener("click", () => goToSlide(index))
-    indicators.appendChild(indicator)
-  })
+    slides.forEach((_, index) => {
+        const indicator = document.createElement("div")
+        indicator.className = "indicator"
+        if (index === 0) indicator.classList.add("active")
+        indicator.addEventListener("click", () => goToSlide(index))
+        indicators.appendChild(indicator)
+    })
 
-  // Auto-play
-  startSlideShow()
-
-  // Navigation buttons
-  document.querySelector(".banner-nav.prev")?.addEventListener("click", prevSlide)
-  document.querySelector(".banner-nav.next")?.addEventListener("click", nextSlide)
+    startSlideShow()
+    document.querySelector(".banner-nav.prev")?.addEventListener("click", prevSlide)
+    document.querySelector(".banner-nav.next")?.addEventListener("click", nextSlide)
 }
 
 function goToSlide(index) {
-  const slides = document.querySelectorAll(".banner-slide")
-  const indicators = document.querySelectorAll(".indicator")
-
-  slides[currentSlide].classList.remove("active")
-  indicators[currentSlide].classList.remove("active")
-
-  currentSlide = index
-
-  slides[currentSlide].classList.add("active")
-  indicators[currentSlide].classList.add("active")
+    const slides = document.querySelectorAll(".banner-slide")
+    const indicators = document.querySelectorAll(".indicator")
+    if (!slides.length) return
+    slides[currentSlide].classList.remove("active")
+    if (indicators.length) indicators[currentSlide].classList.remove("active")
+    currentSlide = index
+    slides[currentSlide].classList.add("active")
+    if (indicators.length) indicators[currentSlide].classList.add("active")
 }
 
 function nextSlide() {
-  const slides = document.querySelectorAll(".banner-slide")
-  goToSlide((currentSlide + 1) % slides.length)
+    const slides = document.querySelectorAll(".banner-slide")
+    if (slides.length) goToSlide((currentSlide + 1) % slides.length)
 }
 
 function prevSlide() {
-  const slides = document.querySelectorAll(".banner-slide")
-  goToSlide((currentSlide - 1 + slides.length) % slides.length)
+    const slides = document.querySelectorAll(".banner-slide")
+    if (slides.length) goToSlide((currentSlide - 1 + slides.length) % slides.length)
 }
 
 function startSlideShow() {
-  stopSlideShow()
-  slideInterval = setInterval(nextSlide, 10000) // 10 seconds
+    stopSlideShow()
+    slideInterval = setInterval(nextSlide, 10000)
 }
 
 function stopSlideShow() {
-  if (slideInterval) {
-    clearInterval(slideInterval)
-    slideInterval = null
-  }
+    if (slideInterval) {
+        clearInterval(slideInterval)
+        slideInterval = null
+    }
 }
 
-// Product Card Creation
+// Product Card Creation - USING YOUR WORKING PRICE LOGIC
 function createProductCard(product) {
-  const discount = calculateDiscount(product.price, product.old_price)
-  const imageUrl = Array.isArray(product.image_urls) ? product.image_urls[0] : product.image_urls
+    const priceValue = product.price || 0;
+    const formattedPrice = formatCurrency(priceValue);
+    const discount = product.discount || 0;
+    const imageUrl = (product.image_urls && product.image_urls.length > 0) ? product.image_urls[0] : '';
 
-  return `
+    return `
         <div class="product-card" data-product-id="${product.id}">
             <div class="product-image-container">
                 <img src="${imageUrl}" alt="${product.name}" class="product-image" loading="lazy">
@@ -174,16 +129,11 @@ function createProductCard(product) {
                 </button>
             </div>
             <div class="product-info">
-                <div class="product-name">${product.name}</div>
+                <div class="product-name">${product.name || "Product"}</div>
                 <div class="product-category">${product.category || "Electronics"}</div>
                 <div class="product-price-row">
                     <div>
-                        <span class="product-price">${formatCurrency(product.price)}</span>
-                        ${
-                          product.old_price && product.old_price > product.price
-                            ? `<span class="product-old-price">${formatCurrency(product.old_price)}</span>`
-                            : ""
-                        }
+                        <span class="product-price">N ${formattedPrice}</span>
                     </div>
                     <button class="add-to-cart-btn" data-action="add-to-cart" onclick="event.stopPropagation()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -195,169 +145,131 @@ function createProductCard(product) {
                 </div>
             </div>
         </div>
-    `
+    `;
 }
 
-// Product Display
+// Display Functions
 function displayProducts(container, products) {
-  if (!container || !products || products.length === 0) {
-    if (container)
-      container.innerHTML =
-        '<p style="grid-column: 1/-1; text-align: center; padding: 20px;">No products available.</p>'
-    return
-  }
+    if (!container) return;
+    if (!products || products.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 20px;">No products available.</p>';
+        return;
+    }
 
-  container.innerHTML = products.map(createProductCard).join("")
+    container.innerHTML = products.map(createProductCard).join("");
 
-  // Add click handlers to product cards
-  container.querySelectorAll(".product-card").forEach((card) => {
-    card.addEventListener("click", (e) => {
-      if (!e.target.closest("[data-action]")) {
-        const productId = card.dataset.productId
-        const product = cachedProducts.find((p) => p.id == productId)
-        if (product) openProductModal(product)
-      }
-    })
-  })
+    // Setup Listeners
+    container.querySelectorAll(".product-card").forEach((card) => {
+        card.addEventListener("click", (e) => {
+            if (!e.target.closest("[data-action]")) {
+                const productId = card.dataset.productId;
+                const product = cachedProducts.find((p) => String(p.id) === String(productId));
+                if (product) openProductModal(product);
+            }
+        });
+    });
 
-  // Add handlers for cart buttons
-  container.querySelectorAll('[data-action="add-to-cart"]').forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productId = btn.closest(".product-card").dataset.productId
-      addToCart(productId)
-    })
-  })
+    container.querySelectorAll('[data-action="add-to-cart"]').forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const productId = btn.closest(".product-card").dataset.productId;
+            addToCart(productId);
+        });
+    });
 }
 
-// Load Products from Backend
 async function loadProducts() {
-  const popularContainer = document.getElementById("popular-products")
-
-  if (popularContainer) {
-    popularContainer.innerHTML = `
-            <div style="display: flex; flex-direction: column; align-items: center; padding: 40px;">
-                <div class="splash-loader" style="width: 30px; height: 30px;"></div>
-                <p style="margin-top: 15px; color: ${PRIMARY_COLOR}; font-weight: 600;">LOADING PRODUCTS...</p>
-            </div>
-        `
-  }
-
-  try {
-    const response = await fetch(API_ENDPOINT, {
-      headers: { Accept: "application/json" },
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
-    }
-
-    const result = await response.json()
-    const products = result.data || []
-
-    cachedProducts = products
-
-    if (products.length === 0) {
-      if (popularContainer) {
-        popularContainer.innerHTML = '<p style="text-align: center; padding: 40px;">No products available.</p>'
-      }
-      return
-    }
-
-    // Display "Items You Like" section
+    const popularContainer = document.getElementById("popular-products");
     if (popularContainer) {
-      displayProducts(popularContainer, getRandomProducts(products, 8))
+        popularContainer.innerHTML = `<div class="splash-loader-inline">LOADING...</div>`;
     }
 
-    // Display category sections
-    displayCategorySections(products)
-  } catch (error) {
-    console.error("Error loading products:", error)
-    if (popularContainer) {
-      popularContainer.innerHTML = `
-                <p style="text-align: center; color: red; padding: 40px;">
-                    Error loading products. ${error.message}. Please check your internet connection.
-                </p>
-            `
+    try {
+        const response = await fetch(API_ENDPOINT, { 
+            headers: { 
+                "Accept": "application/json",
+                "Authorization": `Bearer ${AUTH_TOKEN}`
+            } 
+        });
+        if (!response.ok) throw new Error("Network error");
+        
+        const result = await response.json();
+        const products = result.data || [];
+        cachedProducts = products;
+
+        if (popularContainer) {
+            // Shuffle for "Items You Like"
+            const shuffled = [...products].sort(() => Math.random() - 0.5).slice(0, 8);
+            displayProducts(popularContainer, shuffled);
+        }
+
+        displayCategorySections(products);
+    } catch (error) {
+        console.error(error);
+        if (popularContainer) popularContainer.innerHTML = "<p>Error loading products.</p>";
     }
-  }
 }
 
-// Display Category Sections
 function displayCategorySections(products) {
-  const categorySectionsContainer = document.getElementById("category-sections")
-  if (!categorySectionsContainer) return
+    const container = document.getElementById("category-sections");
+    if (!container) return;
 
-  const categoryMap = groupProductsByCategory(products)
-  const categories = Object.keys(categoryMap).sort(() => Math.random() - 0.5)
+    // Grouping logic
+    const categoryMap = {};
+    products.forEach(p => {
+        const cat = p.category || "General";
+        if (!categoryMap[cat]) categoryMap[cat] = [];
+        categoryMap[cat].push(p);
+    });
 
-  categorySectionsContainer.innerHTML = categories
-    .map((category) => {
-      const categoryProducts = getRandomProducts(categoryMap[category], 8)
-      return `
-            <section class="product-section">
-                <div class="section-header">
-                    <h2 class="section-title">${category}</h2>
-                    <button class="see-all-btn" data-category="${category}">See All</button>
-                </div>
-                <div class="product-grid" data-category-grid="${category}">
-                    ${categoryProducts.map(createProductCard).join("")}
-                </div>
-            </section>
-        `
-    })
-    .join("")
+    container.innerHTML = Object.keys(categoryMap).map(cat => `
+        <section class="product-section">
+            <div class="section-header">
+                <h2 class="section-title">${cat}</h2>
+                <button class="see-all-btn" data-category="${cat}">See All</button>
+            </div>
+            <div class="product-grid">
+                ${categoryMap[cat].slice(0, 4).map(createProductCard).join("")}
+            </div>
+        </section>
+    `).join("");
 
-  // Add click handlers
-  categorySectionsContainer.querySelectorAll(".product-card").forEach((card) => {
-    card.addEventListener("click", (e) => {
-      if (!e.target.closest("[data-action]")) {
-        const productId = card.dataset.productId
-        const product = cachedProducts.find((p) => p.id == productId)
-        if (product) openProductModal(product)
-      }
-    })
-  })
-
-  // Add handlers for cart buttons
-  categorySectionsContainer.querySelectorAll('[data-action="add-to-cart"]').forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productId = btn.closest(".product-card").dataset.productId
-      addToCart(productId)
-    })
-  })
+    // Re-attach listeners for dynamically created cards
+    container.querySelectorAll(".product-card").forEach((card) => {
+        card.addEventListener("click", (e) => {
+            if (!e.target.closest("[data-action]")) {
+                const productId = card.dataset.productId;
+                const product = cachedProducts.find((p) => String(p.id) === String(productId));
+                if (product) openProductModal(product);
+            }
+        });
+    });
 }
 
-// Product Modal
+// Modal - USING YOUR WORKING CALCULATIONS
 function openProductModal(product) {
-  const modal = document.getElementById("product-modal")
-  const modalDetails = document.getElementById("modal-details")
+    const modal = document.getElementById("product-modal");
+    const modalDetails = document.getElementById("modal-details");
+    if (!modal || !modalDetails) return;
 
-  if (!modal || !modalDetails) return
+    const price = product.price || 0;
+    const discount = product.discount || 0;
+    // Your exact calculation for the crossed-out price:
+    const costPrice = Math.round((100 * price) / (100 - discount));
+    const imageUrl = (product.image_urls && product.image_urls.length > 0) ? product.image_urls[0] : '';
 
-  const discount = calculateDiscount(product.price, product.old_price)
-  const imageUrl = Array.isArray(product.image_urls) ? product.image_urls[0] : product.image_urls
-
-  modalDetails.innerHTML = `
+    modalDetails.innerHTML = `
         <div class="modal-product-layout">
-            <div>
+            <div class="modal-image-wrapper">
                 <img src="${imageUrl}" alt="${product.name}" class="modal-product-image">
             </div>
             <div class="modal-product-details">
                 <h1>${product.name}</h1>
-                ${
-                  discount > 0
-                    ? `
-                    <div class="modal-discount-info">
-                        <span class="modal-discount-badge">${discount}% OFF</span>
-                        <span class="modal-old-price">${formatCurrency(product.old_price)}</span>
-                        <span> ⇒ </span>
-                        <span class="modal-product-price">${formatCurrency(product.price)}</span>
-                    </div>
-                `
-                    : `
-                    <div class="modal-product-price">${formatCurrency(product.price)}</div>
-                `
-                }
+                <div class="modal-price-container">
+                    <span class="modal-discount-badge">${discount}% OFF</span>
+                    <span class="modal-old-price">N ${formatCurrency(costPrice)}</span>
+                    <span class="price-arrow"> ⇒ </span>
+                    <span class="modal-product-price">N ${formatCurrency(price)}</span>
+                </div>
                 <div class="modal-buttons">
                     <button class="modal-btn modal-btn-primary" onclick="redirectToStore()">SHOP NOW</button>
                     <button class="modal-btn modal-btn-secondary" onclick="addToCart(${product.id})">ADD TO CART</button>
@@ -368,102 +280,64 @@ function openProductModal(product) {
                 </div>
             </div>
         </div>
-    `
+    `;
 
-  modal.classList.add("active")
-  document.body.style.overflow = "hidden"
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
 }
 
 function closeProductModal() {
-  const modal = document.getElementById("product-modal")
-  if (modal) {
-    modal.classList.remove("active")
-    document.body.style.overflow = ""
-  }
+    const modal = document.getElementById("product-modal");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
 }
 
-// Cart Functions
+// Redirect and Cart Helpers
 function addToCart(productId) {
-  showMessage("Product added to cart successfully!", "success")
-  console.log("Adding to cart:", productId)
-  // In a real app, you would make an API call here
+    showMessage("Product added to cart!");
 }
 
 function redirectToStore() {
-  const messageDiv = document.getElementById("redirect-message")
-  if (messageDiv) {
-    messageDiv.classList.add("message-visible")
-    setTimeout(() => {
-      window.location.href = MOBILE_STORE_URL
-    }, 2000)
-  }
+    const messageDiv = document.getElementById("redirect-message");
+    if (messageDiv) {
+        messageDiv.classList.add("message-visible");
+        setTimeout(() => { window.location.href = MOBILE_STORE_URL; }, 1500);
+    }
 }
 
-// Show Message
-function showMessage(message, type = "success") {
-  const messageDiv = document.getElementById("redirect-message")
-  if (messageDiv) {
-    messageDiv.textContent = message
-    messageDiv.style.background = type === "success" ? "var(--success)" : "var(--error)"
-    messageDiv.classList.add("message-visible")
-    setTimeout(() => {
-      messageDiv.classList.remove("message-visible")
-    }, 3000)
-  }
+function showMessage(msg) {
+    const messageDiv = document.getElementById("redirect-message");
+    if (messageDiv) {
+        messageDiv.textContent = msg;
+        messageDiv.classList.add("message-visible");
+        setTimeout(() => { messageDiv.classList.remove("message-visible"); }, 2000);
+    }
 }
 
-// Initialize App
+// Initialization
 function initApp() {
-  // Initialize theme
-  initTheme()
+    initTheme();
+    initBannerCarousel();
+    loadProducts();
 
-  // Initialize banner carousel
-  initBannerCarousel()
-
-  // Load products
-  loadProducts()
-
-  // Event listeners
-  document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme)
-  document.getElementById("search-btn")?.addEventListener("click", () => {
-    showMessage("Search functionality coming soon!", "success")
-  })
-  document.getElementById("notifications-btn")?.addEventListener("click", () => {
-    showMessage("No new notifications", "success")
-  })
-
-  // See All buttons
-  document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("see-all-btn")) {
-      const category = e.target.dataset.category
-      showMessage(`Showing all ${category} products...`, "success")
-    }
-  })
-
-  // Keyboard support for modal
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeProductModal()
-    }
-  })
+    document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeProductModal(); });
 }
 
-// Handle Splash Screen
 document.addEventListener("DOMContentLoaded", () => {
-  const splash = document.getElementById("splash-screen")
-  const splashDuration = 2000
-  const fadeDuration = 1000
-
-  setTimeout(() => {
-    splash?.classList.add("fade-out")
+    const splash = document.getElementById("splash-screen");
     setTimeout(() => {
-      if (splash) splash.style.display = "none"
-      initApp()
-    }, fadeDuration)
-  }, splashDuration)
-})
+        splash?.classList.add("fade-out");
+        setTimeout(() => {
+            if (splash) splash.style.display = "none";
+            initApp();
+        }, 600);
+    }, 1500);
+});
 
-// Export functions for inline event handlers
-window.closeProductModal = closeProductModal
-window.redirectToStore = redirectToStore
-window.addToCart = addToCart
+// Global exports
+window.closeProductModal = closeProductModal;
+window.redirectToStore = redirectToStore;
+window.addToCart = addToCart;
